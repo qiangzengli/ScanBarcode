@@ -30,14 +30,7 @@ import kotlinx.coroutines.launch
 
 @Preview
 @Composable
-fun ScanPage() {
-    Scaffold(modifier = Modifier.fillMaxSize()) {
-        ImageCapturePage()
-    }
-}
-
-@Composable
-fun ImageCapturePage(vm: ScanViewModel = viewModel()) {
+fun ScanPage(vm: ScanViewModel = viewModel()) {
     val context = LocalContext.current
     val vibrator: Vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         val vibratorManager = context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
@@ -102,32 +95,36 @@ fun ImageCapturePage(vm: ScanViewModel = viewModel()) {
                 processor.processImageProxy(context, it)
             }
     }
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        CameraView(
-            onAnalyze = {
-                scope.launch {
-                    vm.frameFlow.emit(it)
-                }
-            },
-        )
-        Box(
-            modifier = Modifier
-                .size(200.dp)
-                .zIndex(1000f)
-                .border(1.dp, color = Color.Blue),
-            contentAlignment = Alignment.Center,
-        ) {
-// 扫描线
-            Divider(
-                color = Color.Green.copy(alpha = 0.7f),
-                thickness = 2.dp,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .offset(y = 200.dp * offset - 100.dp)
-                    .shadow(4.dp, shape = RectangleShape)
-            )
-        }
+    Scaffold(modifier = Modifier.fillMaxSize()) {
 
+
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CameraView(
+                onAnalyze = {
+                    scope.launch {
+                        vm.frameFlow.emit(it)
+                    }
+                },
+            )
+            Box(
+                modifier = Modifier
+                    .size(200.dp)
+                    .zIndex(1000f)
+                    .border(1.dp, color = Color.Blue),
+                contentAlignment = Alignment.Center,
+            ) {
+// 扫描线
+                Divider(
+                    color = Color.Green.copy(alpha = 0.7f),
+                    thickness = 2.dp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .offset(y = 200.dp * offset - 100.dp)
+                        .shadow(4.dp, shape = RectangleShape)
+                )
+            }
+
+        }
     }
 
 }
