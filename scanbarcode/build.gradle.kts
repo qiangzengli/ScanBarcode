@@ -37,7 +37,7 @@ android {
 
 dependencies {
     // Use this dependency to bundle the model with your app
-    implementation("com.google.mlkit:barcode-scanning:17.3.0")
+    api("com.google.mlkit:barcode-scanning:17.3.0")
     // CameraX
     val cameraxVersion = "1.2.2"
     implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
