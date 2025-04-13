@@ -1,5 +1,6 @@
 package com.alan.scanbarcode.scan
 
+import android.util.Log
 import android.util.Size
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -40,19 +41,23 @@ fun CameraView(onAnalyze: ((ImageProxy) -> Unit) = {}) {
             .build()
     }
     // 图片分析
-    val imageAnalyzers =
+    val imageAnalyzers = remember {
         ImageAnalysis
             .Builder()
             .setTargetResolution(Size(1080, 1920))
+            .setBackgroundExecutor(executor)
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .build()
-            .also {
-                it.setAnalyzer(executor, object : ImageAnalysis.Analyzer {
+            .apply {
+                setAnalyzer(executor, object : ImageAnalysis.Analyzer {
                     override fun analyze(p0: ImageProxy) {
+                        Log.d("CameraView", "analyze")
                         onAnalyze(p0)
                     }
                 })
             }
+    }
+
     // View 系统CameraX 预览组件
     val previewView = remember { PreviewView(context) }
     // 预览
@@ -72,7 +77,7 @@ fun CameraView(onAnalyze: ((ImageProxy) -> Unit) = {}) {
     val cameraProvider = remember { cameraProviderFuture.get() }
     // 使用executor 去执行上面的内容
 
-    LaunchedEffect(true) {
+    LaunchedEffect(Unit) {
         cameraProviderFuture.addListener({
             cameraProvider.unbindAll()
             cameraProvider.bindToLifecycle(

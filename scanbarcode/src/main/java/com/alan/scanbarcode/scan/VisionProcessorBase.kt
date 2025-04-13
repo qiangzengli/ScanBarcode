@@ -46,6 +46,8 @@ abstract class VisionProcessorBase(
     // Whether this processor is already shut down
     private var isShutdown = false
 
+    private var isRunning = false
+
     // Used to calculate latency, running in the same thread, no sync needed.
     private var numRuns = 0
     private var totalFrameMs = 0L
@@ -110,7 +112,7 @@ abstract class VisionProcessorBase(
 
     fun processImageProxy(context: Context, image: ImageProxy) {
         Log.e("CropUtil", "开始裁剪:${System.currentTimeMillis()}")
-        val bitmap = CropUtil.cropImageProxyCenter(context,image, 200)
+        val bitmap = CropUtil.cropImageProxyCenter(context, image, 200)
         Log.e("CropUtil", "结束裁剪:${System.currentTimeMillis()}")
         requestDetectInImage(
 //            InputImage.fromMediaImage(image.image!!, image.imageInfo.rotationDegrees),
@@ -120,6 +122,7 @@ abstract class VisionProcessorBase(
                 bitmap.recycle()
                 image.close()
             }
+
     }
 
 

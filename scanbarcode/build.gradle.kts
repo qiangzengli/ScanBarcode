@@ -3,8 +3,6 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
     id("org.jetbrains.kotlin.plugin.compose")
-    id("com.google.dagger.hilt.android")
-
     // 将library 发布到maven仓库
     id("maven-publish")
 }
@@ -38,10 +36,6 @@ android {
 }
 
 dependencies {
-
-//    compileOnly("androidx.core:core-ktx:1.15.0")
-//    compileOnly("androidx.appcompat:appcompat:1.6.1")
-//    compileOnly("com.google.android.material:material:1.10.0")
     // Use this dependency to bundle the model with your app
     implementation("com.google.mlkit:barcode-scanning:17.3.0")
     // CameraX
@@ -61,11 +55,6 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.runtime:runtime")
     implementation("androidx.compose.ui:ui-tooling")
-
-    //Dagger - Hilt
-    implementation("com.google.dagger:hilt-android:2.55")
-    ksp("com.google.dagger:hilt-compiler:2.55")
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
 }
 

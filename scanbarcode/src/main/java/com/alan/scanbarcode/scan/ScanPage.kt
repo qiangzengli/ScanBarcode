@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
+import android.util.Log
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -19,19 +20,12 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.alan.scanbarcode.ScanActivity
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.launch
 
-
-@Preview
 @Composable
-fun ScanPage(vm: ScanViewModel=hiltViewModel()) {
+fun ScanPage() {
     val context = LocalContext.current
     val vibrator: Vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         val vibratorManager = context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
@@ -68,12 +62,17 @@ fun ScanPage(vm: ScanViewModel=hiltViewModel()) {
             repeatMode = RepeatMode.Reverse
         )
     ).value
-    val scope = rememberCoroutineScope()
+    var currentTime by remember { mutableStateOf(0L) }
+    var lastTime by remember { mutableStateOf(0L) }
+    // 是否扫描成功
+    var isSuccess by remember { mutableStateOf(false) }
     val processor by remember {
         mutableStateOf(
             BarcodeScannerProcessor(
                 onSuccess = {
+                    if (isSuccess) return@BarcodeScannerProcessor
                     if (it.isNotEmpty()) {
+                        isSuccess = true
                         vibrate(200L)
                         (context as ScanActivity).apply {
                             setResult(RESULT_OK, Intent().apply {
@@ -82,6 +81,7 @@ fun ScanPage(vm: ScanViewModel=hiltViewModel()) {
                             finish()
                         }
                     }
+
                 },
                 onFailed = {
 
@@ -89,21 +89,17 @@ fun ScanPage(vm: ScanViewModel=hiltViewModel()) {
 
             ))
     }
-    LaunchedEffect(null) {
-        vm.frameFlow
-            .debounce { 200L }
-            .collect {
-                processor.processImageProxy(context, it)
-            }
-    }
     Scaffold(modifier = Modifier.fillMaxSize()) {
-
-
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CameraView(
                 onAnalyze = {
-                    scope.launch {
-                        vm.frameFlow.emit(it)
+                    Log.d("ScanPage", "onAnalyze")
+                    currentTime = System.currentTimeMillis()
+                    if (currentTime - lastTime >= 200L) {
+                        processor.processImageProxy(context, it)
+                        lastTime = currentTime
+                    } else {
+                        it.close()
                     }
                 },
             )
