@@ -40,21 +40,21 @@ dependencies {
     api("com.google.mlkit:barcode-scanning:17.3.0")
     // CameraX
     val cameraxVersion = "1.2.2"
-    implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
-    implementation("androidx.camera:camera-core:$cameraxVersion")
-    implementation("androidx.camera:camera-camera2:$cameraxVersion")
-    implementation("androidx.camera:camera-view:$cameraxVersion")
+    api("androidx.camera:camera-lifecycle:$cameraxVersion")
+    api("androidx.camera:camera-core:$cameraxVersion")
+    api("androidx.camera:camera-camera2:$cameraxVersion")
+    api("androidx.camera:camera-view:$cameraxVersion")
 
-    implementation("androidx.camera:camera-extensions:$cameraxVersion")
-    implementation("androidx.activity:activity-compose:1.10.0")
-    implementation(platform("androidx.compose:compose-bom:2025.02.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material:material")
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.compose.runtime:runtime")
-    implementation("androidx.compose.ui:ui-tooling")
+    api("androidx.camera:camera-extensions:$cameraxVersion")
+    api("androidx.activity:activity-compose:1.10.0")
+    api(platform("androidx.compose:compose-bom:2025.02.00"))
+    api("androidx.compose.ui:ui")
+    api("androidx.compose.ui:ui-graphics")
+    api("androidx.compose.ui:ui-tooling-preview")
+    api("androidx.compose.material:material")
+    api("androidx.compose.material3:material3")
+    api("androidx.compose.runtime:runtime")
+    api("androidx.compose.ui:ui-tooling")
 
 }
 
