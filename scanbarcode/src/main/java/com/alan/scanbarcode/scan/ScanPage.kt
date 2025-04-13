@@ -30,7 +30,8 @@ import kotlinx.coroutines.launch
 
 @Preview
 @Composable
-fun ScanPage(vm: ScanViewModel = viewModel()) {
+fun ScanPage() {
+    val vm = viewModel<ScanViewModel>()
     val context = LocalContext.current
     val vibrator: Vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         val vibratorManager = context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
