@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--    震动权限-普通-->
+    <uses-feature android:name="android.hardware.camera" android:required="false"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <!--    相机权限-危险-->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <application>
+        <activity
+                android:name=".ScanActivity"
+                android:screenOrientation="portrait"
+        />
+    </application>
+
+</manifest>
