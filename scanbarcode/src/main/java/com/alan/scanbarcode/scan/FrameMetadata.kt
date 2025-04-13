@@ -1,4 +1,4 @@
-package com.sanga.scan_plugin.vision
+package com.alan.scanbarcode.scan
 
 import android.util.Size
 

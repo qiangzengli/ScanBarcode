@@ -88,7 +88,7 @@ publishing {
             afterEvaluate { artifact(tasks.getByName("bundleReleaseAar")) }
             groupId = "com.alan"
             artifactId = "scanbarcode"
-            version = "1.0.0"
+            version = "1.0.1"
             /**
              * 转换为如下格式
              * <dependencies>

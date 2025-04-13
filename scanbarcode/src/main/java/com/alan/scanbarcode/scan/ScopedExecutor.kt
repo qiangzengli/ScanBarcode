@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.sanga.scan_plugin.vision
+package com.alan.scanbarcode.scan
 
 import java.util.concurrent.Executor
 import java.util.concurrent.atomic.AtomicBoolean

@@ -27,8 +27,6 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.TaskExecutors
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
-import com.sanga.scan_plugin.vision.FrameMetadata
-import com.sanga.scan_plugin.vision.ScopedExecutor
 import java.nio.ByteBuffer
 
 /**
