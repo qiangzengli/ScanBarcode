@@ -23,6 +23,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.alan.scanbarcode.ScanActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun ScanPage() {
@@ -66,6 +68,7 @@ fun ScanPage() {
     var lastTime by remember { mutableStateOf(0L) }
     // 是否扫描成功
     var isSuccess by remember { mutableStateOf(false) }
+    val scope  = rememberCoroutineScope()
     val processor by remember {
         mutableStateOf(
             BarcodeScannerProcessor(
@@ -93,14 +96,18 @@ fun ScanPage() {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CameraView(
                 onAnalyze = {
-                    Log.d("ScanPage", "onAnalyze")
-                    currentTime = System.currentTimeMillis()
-                    if (currentTime - lastTime >= 200L) {
-                        processor.processImageProxy(context, it)
-                        lastTime = currentTime
-                    } else {
-                        it.close()
+                    scope.launch (Dispatchers.IO) {
+                        Log.d("ScanPage", "onAnalyze")
+                        currentTime = System.currentTimeMillis()
+                        if (currentTime - lastTime >= 200L) {
+                            processor.processImageProxy(context, it)
+                            lastTime = currentTime
+                        } else {
+                            it.close()
+                        }
+
                     }
+
                 },
             )
             Box(

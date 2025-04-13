@@ -19,11 +19,46 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        create("release") {
+            storeFile = file("key/key.jks")
+            storePassword = "123456"
+            keyAlias = "key"
+            keyPassword = "123456"
+            enableV1Signing = true
+        }
 
+    }
     buildTypes {
+        // 生产打包环境
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            signingConfig = signingConfigs["release"]
+        }
+        // 测试环境
+        getByName("debug") {
+            isMinifyEnabled = false
+            isDebuggable = true
+//            applicationIdSuffix = ".t"
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            signingConfig = signingConfigs["release"]
+        }
+        // 生产环境可调试
+        create("releaseDebuggable") {
+            isMinifyEnabled = false
+            isDebuggable = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            signingConfig = signingConfigs["release"]
         }
     }
     compileOptions {
