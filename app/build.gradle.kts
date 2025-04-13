@@ -3,6 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
     id("org.jetbrains.kotlin.plugin.compose")
+    id("com.google.dagger.hilt.android")
+
 }
 
 android {
@@ -48,8 +50,13 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.runtime:runtime")
     implementation("androidx.compose.ui:ui-tooling")
-//    implementation("com.github.qiangzengli:ScanBarcode:1.0.2")
+//    implementation("com.github.qiangzengli:ScanBarcode:1.0.3")
     implementation(project(":scanbarcode"))
     // 权限申请库
     implementation("com.google.accompanist:accompanist-permissions:0.34.0")
+
+    //Dagger - Hilt
+    implementation("com.google.dagger:hilt-android:2.55")
+    ksp("com.google.dagger:hilt-compiler:2.55")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 }

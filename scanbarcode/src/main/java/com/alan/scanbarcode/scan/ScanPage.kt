@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.alan.scanbarcode.ScanActivity
 import kotlinx.coroutines.flow.debounce
@@ -30,8 +31,7 @@ import kotlinx.coroutines.launch
 
 @Preview
 @Composable
-fun ScanPage() {
-    val vm = viewModel<ScanViewModel>()
+fun ScanPage(vm: ScanViewModel=hiltViewModel()) {
     val context = LocalContext.current
     val vibrator: Vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         val vibratorManager = context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager

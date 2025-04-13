@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
     id("org.jetbrains.kotlin.plugin.compose")
+    id("com.google.dagger.hilt.android")
 
     // 将library 发布到maven仓库
     id("maven-publish")
@@ -65,6 +66,7 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.55")
     ksp("com.google.dagger:hilt-compiler:2.55")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
 }
 
 sourceSets {
