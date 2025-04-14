@@ -9,15 +9,30 @@ import android.os.Vibrator
 import android.os.VibratorManager
 import android.util.Log
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.TabRowDefaults.Divider
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -60,15 +75,15 @@ fun ScanPage() {
         initialValue = 0f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 1500, easing = LinearEasing),
-            repeatMode = RepeatMode.Reverse
+            animation = tween(durationMillis = 3000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
         )
     ).value
     var currentTime by remember { mutableStateOf(0L) }
     var lastTime by remember { mutableStateOf(0L) }
     // 是否扫描成功
     var isSuccess by remember { mutableStateOf(false) }
-    val scope  = rememberCoroutineScope()
+    val scope = rememberCoroutineScope()
     val processor by remember {
         mutableStateOf(
             BarcodeScannerProcessor(
@@ -96,7 +111,7 @@ fun ScanPage() {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CameraView(
                 onAnalyze = {
-                    scope.launch (Dispatchers.IO) {
+                    scope.launch(Dispatchers.IO) {
                         Log.d("ScanPage", "onAnalyze")
                         currentTime = System.currentTimeMillis()
                         if (currentTime - lastTime >= 200L) {
@@ -110,23 +125,57 @@ fun ScanPage() {
 
                 },
             )
+
+            // 绘制镂空框
+            Canvas(modifier = Modifier
+                .fillMaxSize()
+                .zIndex(2f)) {
+                val frameWidthPx = 200.dp.toPx()
+
+                // 绘制外部全屏背景
+                drawRect(color = Color.Black.copy(0.4f))
+
+                // 在中心绘制一个透明矩形实现镂空效果
+                drawRect(
+                    color = Color.Transparent,
+                    blendMode = BlendMode.Clear,
+                    topLeft = Offset((size.width - frameWidthPx) / 2, (size.height - frameWidthPx) / 2),
+                    size = Size(
+                        frameWidthPx,
+                        frameWidthPx
+                    )
+                )
+            }
             Box(
                 modifier = Modifier
                     .size(200.dp)
-                    .zIndex(1000f)
-                    .border(1.dp, color = Color.Blue),
+                    .zIndex(2f)
+                    .border(1.dp, color = Color.White),
                 contentAlignment = Alignment.Center,
             ) {
 // 扫描线
                 Divider(
-                    color = Color.Green.copy(alpha = 0.7f),
-                    thickness = 2.dp,
+                    color = Color.Blue,
+                    thickness = 1.dp,
                     modifier = Modifier
                         .fillMaxWidth()
                         .offset(y = 200.dp * offset - 100.dp)
                         .shadow(4.dp, shape = RectangleShape)
                 )
             }
+
+            Image(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = "null",
+                modifier = Modifier
+                    .align(alignment = Alignment.TopStart)
+                    .padding(start = 15.dp, top = 35.dp)
+                    .clickable {
+                        (context as ScanActivity).finish()
+                    }
+                    .zIndex(2f),
+            )
+
 
         }
     }
