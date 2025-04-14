@@ -75,7 +75,7 @@ fun ScanPage() {
         initialValue = 0f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 3000, easing = LinearEasing),
+            animation = tween(durationMillis = 3000, easing = EaseInOutQuad),
             repeatMode = RepeatMode.Restart
         )
     ).value
