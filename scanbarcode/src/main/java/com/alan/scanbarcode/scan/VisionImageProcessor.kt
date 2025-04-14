@@ -13,20 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.alan.scanbarcode.scan
 
-package com.alan.scanbarcode.scan;
+import android.graphics.Bitmap
+import androidx.camera.core.ImageProxy
+import com.google.mlkit.common.MlKitException
 
-import android.graphics.Bitmap;
-import androidx.camera.core.ImageProxy;
-import com.google.mlkit.common.MlKitException;
-import java.nio.ByteBuffer;
+/** An interface to process the images with different vision detectors and custom image models.  */
+interface VisionImageProcessor {
+    /** Processes ImageProxy image data, e.g. used for CameraX live preview case.  */
+    @Throws(MlKitException::class)
+    fun processImageProxy(image: ImageProxy)
 
-/** An interface to process the images with different vision detectors and custom image models. */
-public interface VisionImageProcessor {
-  /** Processes ImageProxy image data, e.g. used for CameraX live preview case. */
-  void processImageProxy(ImageProxy image) throws MlKitException;
-  /** Processes a bitmap image.  */
-  void  processBitmap( Bitmap  bitmap);
-  /** Stops the underlying machine learning model and release resources. */
-  void stop();
+    /** Processes a bitmap image.   */
+    fun processBitmap(bitmap: Bitmap?)
+
+    /** Stops the underlying machine learning model and release resources.  */
+    fun stop()
 }

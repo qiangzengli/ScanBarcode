@@ -46,17 +46,6 @@ abstract class VisionProcessorBase(
     // Whether this processor is already shut down
     private var isShutdown = false
 
-    private var isRunning = false
-
-    // Used to calculate latency, running in the same thread, no sync needed.
-    private var numRuns = 0
-    private var totalFrameMs = 0L
-    private var maxFrameMs = 0L
-    private var minFrameMs = Long.MAX_VALUE
-    private var totalDetectorMs = 0L
-    private var maxDetectorMs = 0L
-    private var minDetectorMs = Long.MAX_VALUE
-
     // To keep the latest images and its metadata.
     @GuardedBy("this")
     private var latestImage: ByteBuffer? = null
@@ -167,17 +156,7 @@ abstract class VisionProcessorBase(
     override fun stop() {
         executor.shutdown()
         isShutdown = true
-        resetLatencyStats()
-    }
 
-    private fun resetLatencyStats() {
-        numRuns = 0
-        totalFrameMs = 0
-        maxFrameMs = 0
-        minFrameMs = Long.MAX_VALUE
-        totalDetectorMs = 0
-        maxDetectorMs = 0
-        minDetectorMs = Long.MAX_VALUE
     }
 
     protected abstract fun detectInImage(image: InputImage): Task<List<Barcode>>

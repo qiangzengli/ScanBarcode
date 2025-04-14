@@ -84,7 +84,7 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.runtime:runtime")
     implementation("androidx.compose.ui:ui-tooling")
-    implementation("com.github.qiangzengli:ScanBarcode:1.0.9")
+    implementation("com.github.qiangzengli:ScanBarcode:1.1.1")
 //    implementation(project(":scanbarcode"))
     // 权限申请库
     implementation("com.google.accompanist:accompanist-permissions:0.34.0")
