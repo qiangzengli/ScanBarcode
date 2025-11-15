@@ -11,12 +11,12 @@ import com.alan.scanbarcode.scan.ScanPage
 
 class ScanActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+           // 隐藏ActionBar
+        requestWindowFeature(FEATURE_NO_TITLE)
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.statusBarColor = Color.Transparent.toArgb()
         window.navigationBarColor = Color.Transparent.toArgb()
-        // 隐藏ActionBar
-        requestWindowFeature(FEATURE_NO_TITLE)
         setContent {
             ScanPage()
         }
